@@ -4,7 +4,7 @@
 
 Este archivo registra el estado del avance del proyecto. Sirve para que cualquier agente o sesión pueda retomar el trabajo desde el punto exacto donde quedó.
 
-## Estado general: Sprint 2 - 100% completado
+## Estado general: Sprint 3 - 100% completado
 
 | Épica | Estado | Detalle |
 |-------|--------|---------|
