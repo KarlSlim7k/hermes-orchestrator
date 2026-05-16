@@ -3,6 +3,8 @@
 Crea, lista y gestiona PRs a traves de gh CLI.
 """
 
+from __future__ import annotations
+
 import json
 import subprocess
 from typing import Optional
