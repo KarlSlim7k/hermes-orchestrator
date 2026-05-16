@@ -12,7 +12,7 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 | Épica 2: Integración con agentes CLI | ✅ Completada | T-06, T-07, T-08, T-09, T-10 |
 | Épica 3: Integración con GitHub | ✅ Completada | T-11 a T-14 |
 | Épica 4: Notificaciones | ✅ Completada | T-15 a T-17 |
-| Épica 5: Integración end-to-end | ⏳ En progreso | T-16bis, T-17bis, T-18 hechas. Faltan T-19, T-20 |
+| Épica 5: Integración end-to-end | ⏳ En progreso | T-16bis a T-19 hechas. Falta T-20 (README) |
 
 ## Tareas completadas
 
@@ -75,10 +75,18 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
   - Orchestrator component wiring
 - Config por defecto en `config/config.yaml`
 
-### T-19: Flujo con GitHub
-- Tipo: integración
-- Dependencias: T-18, T-13, T-14
-- Criterio: commit + push + PR con confirmación del usuario
+### T-19: Flujo GitHub completo con confirmacion ✅
+- Archivos: `src/github/workflow.py`, `tests/test_integration/test_github_workflow.py`
+- `GitHubWorkflow` class que orquesta: branch → commit → push → PR
+- Confirmacion en cada paso (aprobar/rechazar)
+- Auto-branch creation (`hermes/<task_id>`)
+- Integracion con router (tareas de tipo COMMIT/PULL_REQUEST)
+- 13 tests de integracion:
+  - Flujo exitoso completo
+  - Rechazo en cada paso (commit, push, PR)
+  - Manejo de errores (push failure, PR failure, branch failure)
+  - Integracion con router
+  - Confirmacion via callback (simula botones Telegram) del usuario
 
 ### T-20: Documentación de uso
 - Tipo: documentación
@@ -87,7 +95,7 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 
 ## Tests
 
-- **Total:** 264 tests pasando ✅
+- **Total:** 277 tests pasando ✅
 - Core/Orchestrator: 30 tests
 - Router: 25 tests
 - Agentes: tests varios
