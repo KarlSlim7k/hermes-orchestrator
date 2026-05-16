@@ -21,7 +21,7 @@ class TaskManager:
         self._persistent_conn: Optional[sqlite3.Connection] = None
         # For in-memory DB, keep a single persistent connection so tables survive.
         if db_path == ":memory:":
-            self._persistent_conn = sqlite3.connect(db_path)
+            self._persistent_conn = sqlite3.connect(db_path, check_same_thread=False)
             self._persistent_conn.row_factory = sqlite3.Row
         self._init_db()
 
