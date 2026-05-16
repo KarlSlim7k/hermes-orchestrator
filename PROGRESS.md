@@ -12,7 +12,7 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 | Épica 2: Integración con agentes CLI | ✅ Completada | T-06, T-07, T-08, T-09, T-10 |
 | Épica 3: Integración con GitHub | ✅ Completada | T-11 a T-14 |
 | Épica 4: Notificaciones | ✅ Completada | T-15 a T-17 |
-| Épica 5: Integración end-to-end | ⏳ En progreso | T-16bis hecha. Faltan T-17bis, T-18, T-19, T-20 |
+| Épica 5: Integración end-to-end | ⏳ En progreso | T-16bis, T-17bis hechas. Faltan T-18, T-19, T-20 |
 
 ## Tareas completadas
 
@@ -53,9 +53,16 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 - Filtrado por chat_id
 - Tests: `tests/test_interfaces/test_telegram.py` (22 tests)
 
-### T-17bis: Web App entry point ⏳
-- Archivo: `src/interfaces/web/app.py` (vacío)
-- Falta: App que arranca el servidor web conectando TaskManager + Notifier + UI
+### T-17bis: Web App entry point ✅
+- Archivos: `src/interfaces/web/app.py`
+- Panel visual HTML con estadisticas y tabla de tareas
+- API REST completa:
+  - GET  /api/tasks, /api/tasks/:id, /api/tasks/:id/events
+  - POST /api/tasks, /api/tasks/:id/start, /api/tasks/:id/cancel
+  - GET  /api/notifications, /health
+- Servidor en thread background no-bloqueante
+- Tests: `tests/test_interfaces/test_web_app.py` (19 tests)
+- Fix: SQLite in-memory con check_same_thread=False para acceso multi-thread
 
 ### T-18: Flujo completo de prueba
 - Tipo: integración
@@ -74,7 +81,7 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 
 ## Tests
 
-- **Total:** 235 tests pasando ✅
+- **Total:** 254 tests pasando ✅
 - Core/Orchestrator: 30 tests
 - Router: 25 tests
 - Agentes: tests varios
@@ -82,7 +89,8 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 - Notificaciones: tests varios
 - Config: 17 tests
 - Logging: 13 tests
-- Telegram Bot: 22 tests (nuevos)
+- Telegram Bot: 22 tests
+- Web App: 19 tests (nuevos)
 
 ## Configuración del proyecto
 
@@ -91,11 +99,10 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 - Git user: Karol Nahum Delgado Bernal
 - Git email: a23050014@perote.tecnm.mx
 - Python: 3.11+
-- Último commit: `7bd9db6`
+- Último commit: `7764c5d`
 
 ## Próximos pasos inmediatos
 
-1. **T-17bis**: Web App entry point (conectar TaskManager + Notifier + UI)
-2. **T-18**: Flujo end-to-end básico (orden → agente → resultado)
-3. **T-19**: Flujo GitHub completo con confirmación
-4. **T-20**: README y documentación de uso
+1. **T-18**: Flujo end-to-end básico (orden → agente → resultado)
+2. **T-19**: Flujo GitHub completo con confirmación
+3. **T-20**: README y documentación de uso
