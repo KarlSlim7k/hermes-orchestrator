@@ -4,84 +4,78 @@
 
 Este archivo registra el estado del avance del proyecto. Sirve para que cualquier agente o sesión pueda retomar el trabajo desde el punto exacto donde quedó.
 
-## Estado general: Sprint 4 - 100% completado
+## Estado general: Sprint 5 — Interfaces y End-to-End
 
 | Épica | Estado | Detalle |
 |-------|--------|---------|
-| Épica 1: Núcleo del orquestador | Completada | T-01 a T-04 completadas. |
-| Épica 2: Integración con agentes CLI | Completada | T-06, T-07, T-08, T-09, T-10 completadas. |
-| Épica 3: Integración con GitHub | Pendiente | Sin implementar. |
-| Épica 4: Notificaciones | Pendiente | Sin implementar. |
-| Épica 5: Integración end-to-end | Pendiente | Sin implementar. |
+| Épica 1: Núcleo del orquestador | ✅ Completada | T-01 a T-04 + T-06bis |
+| Épica 2: Integración con agentes CLI | ✅ Completada | T-06, T-07, T-08, T-09, T-10 |
+| Épica 3: Integración con GitHub | ✅ Completada | T-11 a T-14 |
+| Épica 4: Notificaciones | ✅ Completada | T-15 a T-17 |
+| Épica 5: Integración end-to-end | ⏳ En progreso | Faltan T-18, T-19, T-20 |
 
 ## Tareas completadas
 
-### T-01. Modelos de datos ✅
-- Estado: Done
-- Archivo: `src/core/models.py`
-- Modelos: Task, TaskEvent, AgentConfig, Notification, SystemConfig, enums
-- Validaciones: prioridad, transiciones
-- Commit: `00dca36`
+### Épica 1 — Núcleo
+- **T-01** Modelos de datos ✅ — `src/core/models.py` (Task, TaskEvent, AgentConfig, Notification, SystemConfig)
+- **T-02** Máquina de estados ✅ — `src/orchestrator/state_machine.py`
+- **T-03** Task Manager ✅ — `src/orchestrator/task_manager.py` (CRUD + SQLite)
+- **T-04** Router de intención ✅ — `src/orchestrator/router.py` (keyword classification + agent resolution)
+- **T-06bis** Config y Logging ✅ — `src/core/config.py`, `src/core/logging.py` (YAML/JSON config, env overrides, structured logging)
 
-### T-02. Máquina de estados ✅
-- Estado: Done
-- Archivo: `src/orchestrator/state_machine.py`
-- Transiciones válidas definidas
-- InvalidTransitionError para transiciones inválidas
-- Commit: `00dca36`
+### Épica 2 — Agentes CLI
+- **T-06** Interfaz base de agente ✅ — `src/agents/base.py` (BaseAgent abstracta, AgentResult, stream_events)
+- **T-07** Adaptador Codex CLI ✅ — `src/agents/codex_adapter.py`
+- **T-08** Adaptador OpenCode CLI ✅ — `src/agents/opencode_adapter.py`
+- **T-09** Detección de progreso ✅ — `src/agents/progress_tracker.py`
+- **T-10** Manejo de errores ✅ — `src/agents/error_handler.py`
 
-### T-03. Task Manager ✅
-- Estado: Done
-- Archivo: `src/orchestrator/task_manager.py`
-- CRUD completo con SQLite
-- Persistencia de eventos
-- Integración con state machine
-- Tests: `tests/test_core_orchestrator.py`
-- Commit: `00dca36`
+### Épica 3 — GitHub
+- **T-11** Wrapper gh CLI ✅ — `src/github/client.py` (GitHubClient, GHCommandResult)
+- **T-12** Operaciones git locales ✅ — `src/github/git_ops.py` (commit, push, ramas)
+- **T-13** Gestión de PR ✅ — `src/github/pr_manager.py` (create, view, list, merge, checks)
+- **T-14** Flujo de confirmación ✅ — `src/github/confirmation.py`
 
-### T-05. Persistencia SQLite ✅ (incluida en T-03)
-- Estado: Done (cubierta por T-03)
-- Backend SQLite en memoria por defecto, configurable a archivo.
+### Épica 4 — Notificaciones
+- **T-15** Sistema de notificación ✅ — `src/notifications/notifier.py` (Notifier, ConsoleChannel, NotificationChannelBase)
+- **T-16** Bot de Telegram ✅ — `src/notifications/channels.py` (TelegramChannel con inline keyboards, polling)
+- **T-17** Panel web básico ✅ — `src/interfaces/web/ui.py` (HTML dashboard, stats, auto-refresh, /api/tasks)
 
 ## Tareas pendientes
 
-### T-04. Router de intención ✅
-- Estado: Done
-- Archivo: `src/orchestrator/router.py`
-- Clasificacion de intencion por keywords con scoring
-- Seleccion de agente por capacidades (AgentCapability)
-- Pipeline completo: classify -> resolve -> create task
-- Confianza de clasificacion (0.0-1.0)
-- Override de agente con force_agent
-- Tests: `tests/test_router.py` (25 tests)
+### T-16bis: Interfaz Telegram (bot receptor) ⏳
+- Archivo: `src/interfaces/telegram.py` (vacío)
+- Falta: Bot que recibe comandos del usuario, los enruta al router, y crea tareas
 
-### T-06. Interfaz base de agente ✅
-- Estado: Done
-- Archivos: `src/agents/base.py`, `src/agents/__init__.py`
-- Clase abstracta BaseAgent con metodos: build_command, parse_result, parse_progress
-- run_sync: ejecucion sincrona con timeout
-- stream_events: yield de eventos en tiempo real (progreso, stdout)
-- Dataclasses: AgentResult, AgentProgress, AgentStreamEvent
-- Tests: `tests/test_agents/test_agent_base.py` (25 tests)
+### T-17bis: Web App entry point ⏳
+- Archivo: `src/interfaces/web/app.py` (vacío)
+- Falta: App que arranca el servidor web conectando TaskManager + Notifier + UI
 
-### T-08. Adaptador de OpenCode CLI ✅
-- Estado: Done
-- Archivo: `src/agents/opencode_adapter.py`
-- Usa `opencode run --format json` para salida estructurada
-- Parsea eventos JSON: step_start, text, step_finish, error
-- Extrae session_id, tokens, costo de step_finish
-- Auto-approve con --dangerously-skip-permissions
-- Deteccion de archivos modificados en texto de salida
-- Cubierto por tests en `tests/test_agents/test_agent_base.py`
+### T-18: Flujo completo de prueba
+- Tipo: integración
+- Dependencias: T-03, T-07, T-15
+- Criterio: orden → agente → notificación → resultado
 
-### T-11 a T-14: GitHub
-- Archivos vacíos en `src/github/`
+### T-19: Flujo con GitHub
+- Tipo: integración
+- Dependencias: T-18, T-13, T-14
+- Criterio: commit + push + PR con confirmación del usuario
 
-### T-15 a T-17: Notificaciones
-- Archivos vacíos en `src/notifications/`
+### T-20: Documentación de uso
+- Tipo: documentación
+- Dependencias: T-18, T-19
+- Criterio: README actualizado con guía de uso
 
-### T-18 a T-20: Integración
-- Pendientes
+## Tests
+
+- **Total:** 213 tests pasando ✅
+- Core/Orchestrator: 30 tests
+- Router: 25 tests
+- Agentes: tests varios
+- GitHub: tests varios
+- Notificaciones: tests varios
+- Config: 17 tests (nuevos)
+- Logging: 13 tests (nuevos)
 
 ## Configuración del proyecto
 
@@ -90,11 +84,12 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 - Git user: Karol Nahum Delgado Bernal
 - Git email: a23050014@perote.tecnm.mx
 - Python: 3.11+
-- Último commit: `00dca36`
+- Último commit: `2796f34`
 
 ## Próximos pasos inmediatos
 
-1. Implementar T-04: Router de intención
-2. Implementar T-06: Interfaz base de agente
-3. Implementar T-08: Adaptador de OpenCode CLI (agente disponible en el sistema)
-4. Conectar task manager con agente OpenCode para flujo end-to-end básico
+1. **T-16bis**: Interfaz Telegram (bot receptor de comandos)
+2. **T-17bis**: Web App entry point
+3. **T-18**: Flujo end-to-end básico (orden → agente → resultado)
+4. **T-19**: Flujo GitHub completo con confirmación
+5. **T-20**: README y documentación de uso
