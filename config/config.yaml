@@ -1,0 +1,29 @@
+# Hermes Orchestrator — Configuracion por defecto
+
+default_agent: opencode
+repository_path: "."
+
+security:
+  require_confirmation_for_commit: true
+  require_confirmation_for_push: true
+  require_confirmation_for_pr: true
+  max_concurrent_tasks: 3
+
+channels:
+  telegram_enabled: false
+  telegram_token: null
+  web_enabled: true
+  web_port: 8000
+
+agents:
+  - name: opencode
+    cli_command: opencode
+    capabilities:
+      - analysis
+      - planning
+      - editing
+      - testing
+      - git_ops
+    supports_progress: true
+    timeout_seconds: 600
+    workdir: null
