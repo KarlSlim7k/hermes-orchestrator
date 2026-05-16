@@ -4,11 +4,11 @@
 
 Este archivo registra el estado del avance del proyecto. Sirve para que cualquier agente o sesión pueda retomar el trabajo desde el punto exacto donde quedó.
 
-## Estado general: Sprint 1 - 75% completado
+## Estado general: Sprint 1 - 100% completado
 
 | Épica | Estado | Detalle |
 |-------|--------|---------|
-| Épica 1: Núcleo del orquestador | En progreso | T-01, T-02, T-03 completadas. T-04 pendiente. T-05 incluida en T-03. |
+| Épica 1: Núcleo del orquestador | Completada | T-01, T-02, T-03, T-04 completadas. T-05 incluida en T-03. |
 | Épica 2: Integración con agentes CLI | Pendiente | Adaptadores con archivos vacíos. |
 | Épica 3: Integración con GitHub | Pendiente | Sin implementar. |
 | Épica 4: Notificaciones | Pendiente | Sin implementar. |
@@ -45,10 +45,15 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 
 ## Tareas pendientes
 
-### T-04. Router de intención
-- Prioridad: media
-- Archivo destino: `src/orchestrator/router.py` (vacío)
-- Próxima tarea recomendada.
+### T-04. Router de intención ✅
+- Estado: Done
+- Archivo: `src/orchestrator/router.py`
+- Clasificacion de intencion por keywords con scoring
+- Seleccion de agente por capacidades (AgentCapability)
+- Pipeline completo: classify -> resolve -> create task
+- Confianza de clasificacion (0.0-1.0)
+- Override de agente con force_agent
+- Tests: `tests/test_router.py` (25 tests)
 
 ### T-06 a T-10: Agentes CLI
 - Archivos vacíos en `src/agents/`

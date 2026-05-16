@@ -18,10 +18,18 @@ class TaskNotFoundError(Exception):
 class TaskManager:
     def __init__(self, db_path: str = ":memory:"):
         self.db_path = db_path
+        self._persistent_conn: Optional[sqlite3.Connection] = None
+        # For in-memory DB, keep a single persistent connection so tables survive.
+        if db_path == ":memory:":
+            self._persistent_conn = sqlite3.connect(db_path)
+            self._persistent_conn.row_factory = sqlite3.Row
         self._init_db()
 
     @contextmanager
     def _get_db(self):
+        if self._persistent_conn is not None:
+            yield self._persistent_conn
+            return
         conn = sqlite3.connect(self.db_path)
         conn.row_factory = sqlite3.Row
         try:
