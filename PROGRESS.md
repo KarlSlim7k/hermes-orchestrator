@@ -4,12 +4,12 @@
 
 Este archivo registra el estado del avance del proyecto. Sirve para que cualquier agente o sesión pueda retomar el trabajo desde el punto exacto donde quedó.
 
-## Estado general: Sprint 2 - 50% completado
+## Estado general: Sprint 2 - 100% completado
 
 | Épica | Estado | Detalle |
 |-------|--------|---------|
 | Épica 1: Núcleo del orquestador | Completada | T-01 a T-04 completadas. |
-| Épica 2: Integración con agentes CLI | En progreso | T-06, T-08 completadas. T-07, T-09, T-10 pendientes. |
+| Épica 2: Integración con agentes CLI | Completada | T-06, T-07, T-08, T-09, T-10 completadas. |
 | Épica 3: Integración con GitHub | Pendiente | Sin implementar. |
 | Épica 4: Notificaciones | Pendiente | Sin implementar. |
 | Épica 5: Integración end-to-end | Pendiente | Sin implementar. |
