@@ -12,7 +12,7 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 | Épica 2: Integración con agentes CLI | ✅ Completada | T-06, T-07, T-08, T-09, T-10 |
 | Épica 3: Integración con GitHub | ✅ Completada | T-11 a T-14 |
 | Épica 4: Notificaciones | ✅ Completada | T-15 a T-17 |
-| Épica 5: Integración end-to-end | ⏳ En progreso | T-16bis, T-17bis hechas. Faltan T-18, T-19, T-20 |
+| Épica 5: Integración end-to-end | ⏳ En progreso | T-16bis, T-17bis, T-18 hechas. Faltan T-19, T-20 |
 
 ## Tareas completadas
 
@@ -64,10 +64,16 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 - Tests: `tests/test_interfaces/test_web_app.py` (19 tests)
 - Fix: SQLite in-memory con check_same_thread=False para acceso multi-thread
 
-### T-18: Flujo completo de prueba
-- Tipo: integración
-- Dependencias: T-03, T-07, T-15
-- Criterio: orden → agente → notificación → resultado
+### T-18: Flujo completo de prueba ✅
+- Archivos: `src/main.py`, `tests/test_integration/test_e2e.py`, `config/config.yaml`
+- `HermesOrchestrator` clase que conecta todos los componentes
+- CLI con flags: `--config`, `--web-only`, `--no-web`, `--telegram-token`, `--log-level`
+- Tests de integracion (10 tests):
+  - Enrutamiento completo: mensaje → clasificacion → creacion de tarea
+  - Ejecucion completa: tarea → agente → resultado → eventos
+  - Integracion web API: POST tarea → start → verificar via GET
+  - Orchestrator component wiring
+- Config por defecto en `config/config.yaml`
 
 ### T-19: Flujo con GitHub
 - Tipo: integración
@@ -81,7 +87,7 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 
 ## Tests
 
-- **Total:** 254 tests pasando ✅
+- **Total:** 264 tests pasando ✅
 - Core/Orchestrator: 30 tests
 - Router: 25 tests
 - Agentes: tests varios
@@ -90,7 +96,8 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 - Config: 17 tests
 - Logging: 13 tests
 - Telegram Bot: 22 tests
-- Web App: 19 tests (nuevos)
+- Web App: 19 tests
+- Integracion E2E: 10 tests (nuevos)
 
 ## Configuración del proyecto
 
@@ -99,10 +106,9 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 - Git user: Karol Nahum Delgado Bernal
 - Git email: a23050014@perote.tecnm.mx
 - Python: 3.11+
-- Último commit: `7764c5d`
+- Último commit: `cf2a7c2`
 
 ## Próximos pasos inmediatos
 
-1. **T-18**: Flujo end-to-end básico (orden → agente → resultado)
-2. **T-19**: Flujo GitHub completo con confirmación
-3. **T-20**: README y documentación de uso
+1. **T-19**: Flujo GitHub completo con confirmación (commit → push → PR)
+2. **T-20**: README y documentación de uso
