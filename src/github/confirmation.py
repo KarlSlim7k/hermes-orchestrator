@@ -158,8 +158,15 @@ class ConfirmationHandler:
         git_ops: GitOperations,
         message: str,
         confirm: bool = True,
+        update_status: bool = True,
     ) -> Task:
-        """Hacer commit con confirmacion opcional."""
+        """Hacer commit con confirmacion opcional.
+        
+        Args:
+            update_status: Si True, actualiza el estado de la tarea.
+                Setear a False cuando se usa dentro de un workflow que
+                gestiona estados por su cuenta.
+        """
         if confirm and self.needs_confirmation("commit"):
             resp = self.request_confirmation(
                 task.id, "commit",
@@ -168,7 +175,8 @@ class ConfirmationHandler:
             if resp.action != ConfirmAction.APPROVE:
                 task.status = TaskStatus.CANCELLED
                 task.errors.append(f"Commit cancelled by user: {resp.response_text}")
-                self.task_manager.update_task_status(task.id, TaskStatus.CANCELLED)
+                if update_status:
+                    self.task_manager.update_task_status(task.id, TaskStatus.CANCELLED)
                 return task
 
         try:
@@ -178,10 +186,14 @@ class ConfirmationHandler:
                 task.result_summary = f"Commit exitoso: {message}"
             else:
                 task.errors.append(f"Commit failed: {result.stderr}")
-                self.task_manager.update_task_status(task.id, TaskStatus.FAILED)
+                task.status = TaskStatus.FAILED
+                if update_status:
+                    self.task_manager.update_task_status(task.id, TaskStatus.FAILED)
         except GitError as e:
             task.errors.append(f"Git error during commit: {str(e)}")
-            self.task_manager.update_task_status(task.id, TaskStatus.FAILED)
+            task.status = TaskStatus.FAILED
+            if update_status:
+                self.task_manager.update_task_status(task.id, TaskStatus.FAILED)
 
         return task
 
@@ -191,6 +203,7 @@ class ConfirmationHandler:
         git_ops: GitOperations,
         branch: Optional[str] = None,
         confirm: bool = True,
+        update_status: bool = True,
     ) -> Task:
         """Hacer push con confirmacion opcional."""
         if confirm and self.needs_confirmation("push"):
@@ -201,7 +214,8 @@ class ConfirmationHandler:
             if resp.action != ConfirmAction.APPROVE:
                 task.status = TaskStatus.CANCELLED
                 task.errors.append(f"Push cancelled by user: {resp.response_text}")
-                self.task_manager.update_task_status(task.id, TaskStatus.CANCELLED)
+                if update_status:
+                    self.task_manager.update_task_status(task.id, TaskStatus.CANCELLED)
                 return task
 
         try:
@@ -210,10 +224,14 @@ class ConfirmationHandler:
                 task.result_summary = f"Push exitoso a {branch or 'current branch'}"
             else:
                 task.errors.append(f"Push failed: {result.stderr}")
-                self.task_manager.update_task_status(task.id, TaskStatus.FAILED)
+                task.status = TaskStatus.FAILED
+                if update_status:
+                    self.task_manager.update_task_status(task.id, TaskStatus.FAILED)
         except GitError as e:
             task.errors.append(f"Git error during push: {str(e)}")
-            self.task_manager.update_task_status(task.id, TaskStatus.FAILED)
+            task.status = TaskStatus.FAILED
+            if update_status:
+                self.task_manager.update_task_status(task.id, TaskStatus.FAILED)
 
         return task
 
@@ -225,6 +243,7 @@ class ConfirmationHandler:
         body: str,
         base: str = "main",
         confirm: bool = True,
+        update_status: bool = True,
     ) -> Task:
         """Crear PR con confirmacion opcional."""
         if confirm and self.needs_confirmation("pull_request"):
@@ -235,7 +254,8 @@ class ConfirmationHandler:
             if resp.action != ConfirmAction.APPROVE:
                 task.status = TaskStatus.CANCELLED
                 task.errors.append(f"PR cancelled by user: {resp.response_text}")
-                self.task_manager.update_task_status(task.id, TaskStatus.CANCELLED)
+                if update_status:
+                    self.task_manager.update_task_status(task.id, TaskStatus.CANCELLED)
                 return task
 
         try:
@@ -250,6 +270,8 @@ class ConfirmationHandler:
             task.metadata["pr_url"] = pr_info.url
         except PRError as e:
             task.errors.append(f"PR error: {str(e)}")
-            self.task_manager.update_task_status(task.id, TaskStatus.FAILED)
+            task.status = TaskStatus.FAILED
+            if update_status:
+                self.task_manager.update_task_status(task.id, TaskStatus.FAILED)
 
         return task
