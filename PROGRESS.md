@@ -4,12 +4,12 @@
 
 Este archivo registra el estado del avance del proyecto. Sirve para que cualquier agente o sesión pueda retomar el trabajo desde el punto exacto donde quedó.
 
-## Estado general: Sprint 1 - 100% completado
+## Estado general: Sprint 2 - 50% completado
 
 | Épica | Estado | Detalle |
 |-------|--------|---------|
-| Épica 1: Núcleo del orquestador | Completada | T-01, T-02, T-03, T-04 completadas. T-05 incluida en T-03. |
-| Épica 2: Integración con agentes CLI | Pendiente | Adaptadores con archivos vacíos. |
+| Épica 1: Núcleo del orquestador | Completada | T-01 a T-04 completadas. |
+| Épica 2: Integración con agentes CLI | En progreso | T-06, T-08 completadas. T-07, T-09, T-10 pendientes. |
 | Épica 3: Integración con GitHub | Pendiente | Sin implementar. |
 | Épica 4: Notificaciones | Pendiente | Sin implementar. |
 | Épica 5: Integración end-to-end | Pendiente | Sin implementar. |
@@ -55,8 +55,24 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 - Override de agente con force_agent
 - Tests: `tests/test_router.py` (25 tests)
 
-### T-06 a T-10: Agentes CLI
-- Archivos vacíos en `src/agents/`
+### T-06. Interfaz base de agente ✅
+- Estado: Done
+- Archivos: `src/agents/base.py`, `src/agents/__init__.py`
+- Clase abstracta BaseAgent con metodos: build_command, parse_result, parse_progress
+- run_sync: ejecucion sincrona con timeout
+- stream_events: yield de eventos en tiempo real (progreso, stdout)
+- Dataclasses: AgentResult, AgentProgress, AgentStreamEvent
+- Tests: `tests/test_agents/test_agent_base.py` (25 tests)
+
+### T-08. Adaptador de OpenCode CLI ✅
+- Estado: Done
+- Archivo: `src/agents/opencode_adapter.py`
+- Usa `opencode run --format json` para salida estructurada
+- Parsea eventos JSON: step_start, text, step_finish, error
+- Extrae session_id, tokens, costo de step_finish
+- Auto-approve con --dangerously-skip-permissions
+- Deteccion de archivos modificados en texto de salida
+- Cubierto por tests en `tests/test_agents/test_agent_base.py`
 
 ### T-11 a T-14: GitHub
 - Archivos vacíos en `src/github/`
