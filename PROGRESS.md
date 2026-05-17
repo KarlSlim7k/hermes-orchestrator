@@ -12,7 +12,7 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 | Épica 2: Integración con agentes CLI | ✅ Completada | T-06, T-07, T-08, T-09, T-10 |
 | Épica 3: Integración con GitHub | ✅ Completada | T-11 a T-14 |
 | Épica 4: Notificaciones | ✅ Completada | T-15 a T-17 |
-| Épica 5: Integración end-to-end | ⏳ En progreso | T-16bis a T-19 hechas. Falta T-20 (README) |
+| Épica 5: Integración end-to-end | ✅ Completada | T-16bis a T-20 completadas. |
 
 ## Tareas completadas
 
@@ -88,10 +88,18 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
   - Integracion con router
   - Confirmacion via callback (simula botones Telegram) del usuario
 
-### T-20: Documentación de uso
-- Tipo: documentación
-- Dependencias: T-18, T-19
-- Criterio: README actualizado con guía de uso
+### T-20: Documentacion de uso ✅
+- Archivo: `README.md`
+- Documentacion completa con:
+  - Diagrama de arquitectura
+  - Instalacion y requisitos
+  - Uso rapido (web, Telegram, config)
+  - Configuracion (YAML + env vars)
+  - CLI y comandos del bot
+  - Referencia API REST con ejemplos
+  - Documentacion del flujo GitHub
+  - Estructura del proyecto
+  - Comandos de test
 
 ## Tests
 
@@ -116,7 +124,11 @@ Este archivo registra el estado del avance del proyecto. Sirve para que cualquie
 - Python: 3.11+
 - Último commit: `cf2a7c2`
 
-## Próximos pasos inmediatos
+## Próximos pasos
 
-1. **T-19**: Flujo GitHub completo con confirmación (commit → push → PR)
-2. **T-20**: README y documentación de uso
+- [ ] CI/CD (GitHub Actions para tests y lint)
+- [ ] Dockerfile y docker-compose
+- [ ] Base de datos PostgreSQL en produccion
+- [ ] Autenticacion y autorizacion para API
+- [ ] Integracion con Kiro CLI
+- [ ] Panel web con WebSocket para updates en tiempo real
